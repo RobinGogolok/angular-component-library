@@ -1,0 +1,9 @@
+<h1>picture-upload-with-preview</h1>
+<br>
+<img [src]="fileUrl || defaultFileUrl" alt="DEFAULT_TEXT_GOES_HERE">
+<br/>
+<label [ngClass]="{'hide': fileName}">Datei auswählen...
+    <input type="file" (change)="onChange($event)" #fileInput>
+</label>
+<span id="fileName" *ngIf="fileName">{{fileName}}</span>
+<button [ngClass]="{'hide': !fileName}" (click)="clearFileInput()">clear</button>

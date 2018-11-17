@@ -1,0 +1,36 @@
+.hide {
+  display: none;
+}
+img {
+  height: 200px;
+}
+input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+label, button {
+  padding: 0.625rem 1.25rem;
+  font-family: sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  background-color: #d3394c;
+  display: inline-block;
+}
+
+label:focus,
+label:hover,
+button:focus,
+button:hover {
+  cursor: pointer;
+  background-color: #722040;
+}
+#fileName {
+  font-family: sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+}
