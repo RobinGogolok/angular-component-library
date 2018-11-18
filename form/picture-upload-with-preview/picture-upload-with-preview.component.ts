@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-picture-upload-with-preview',
@@ -8,30 +8,29 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 export class PictureUploadWithPreviewComponent {
 
   @ViewChild('fileInput', {read: ElementRef}) fileInput: ElementRef;
+  @Input('defaultImage') defaultImage: string;
+  @Input('imageAltText') imageAltText: string;
 
   public fileUrl: string | ArrayBuffer;
-  readonly defaultFileUrl = 'https://www.placehold.it/200x200';
-  public fileName: string;
 
-  constructor() { }
+  constructor() {
+    this.defaultImage = (this.defaultImage) ? this.defaultImage : 'https://www.placehold.it/200x200';
+  }
 
   public onChange(event: Event): void {
     if(event.target['files'] && event.target['files'][0]) {
       const file = event.target['files'][0];
-      this.fileName = file.name;
       const reader = new FileReader();
       reader.onload = ev => {
         this.fileUrl = reader.result;
       };
       reader.readAsDataURL(file);
     } else {
-      this.clearFileName();
       this.showDefaultImage();
     }
   }
 
   public clearFileInput(): void {
-    this.clearFileName();
     this.fileInput.nativeElement.value = null;
     this.showDefaultImage();
   }
@@ -40,7 +39,7 @@ export class PictureUploadWithPreviewComponent {
     this.fileUrl = '';
   }
 
-  private clearFileName(): void {
-    this.fileName = '';
+  public getPreviewImageUrl(): string | ArrayBuffer {
+    return (this.fileUrl)? this.fileUrl : this.defaultImage;
   }
 }
