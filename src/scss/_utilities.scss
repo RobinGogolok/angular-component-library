@@ -1,0 +1,25 @@
+$container-width: 900px;
+.container {
+  max-width: $container-width;
+  margin: 0 auto;
+}
+
+.spacer {
+  width: 100%;
+  height: 0.5rem;
+  &-x2 {
+    height: $space * 2;
+  }
+  &-x3 {
+    height: $space * 3;
+  }
+  &-x4 {
+    height: $space * 4;
+  }
+  &-x5 {
+    height: $space * 5;
+  }
+  &-x6 {
+    height: $space * 6;
+  }
+}
