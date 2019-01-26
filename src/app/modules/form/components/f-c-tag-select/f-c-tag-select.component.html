@@ -1,3 +1,29 @@
-<p>
-  f-c-tag-select works!
-</p>
+<div class="col-4 m-auto">
+    <div class="selected-items">
+        <span class="item" *ngFor="let item of selectedItems" [innerHTML]="item.label" (click)="removeItemFromSelectedItems(item)"></span>
+    </div>
+    <div class="search" [formGroup]="formGroup">
+        <input
+            [formControlName]="'searchInput'"
+            class="search-input"
+            type="text"
+            placeholder="e.g. Agriculture"
+            autocomplete="off"
+            autocapitalize="off"
+            autocorrect="off"
+            (input)="onSearchInputInput($event)"
+            (focus)="onSearchInputFocus()"
+            (keyup)="onSearchInputKeyUp($event)"
+            #searchInput>
+        <input class="search-input-clear" type="button" value="X" (click)="onClearSearchInputClick()" *ngIf="!isSearchInputEmpty()">
+        <div class="search-autocomplete" *ngIf="isSearchAutocompleteOpen && filteredItems.length > 0">
+            <div class="search-autocomplete-wrap" [class.key-board-focus]="true">
+                <div class="item" [class.focus]="item.focus" (click)="onItemClick(item)" *ngFor="let item of filteredItems" [innerHTML]="item.label"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="spacer-x6"></div>
+<div class="spacer-x6"></div>
+<div class="spacer-x6"></div>
+<div class="spacer-x6"></div>

@@ -1,0 +1,153 @@
+@import "~src/scss/varibles";
+
+$color-border-focus: $color-gray-dark;
+$color-border-hover: $color-gray-dark;
+
+$transition-duration: 300ms;
+
+$search-input-border-radius: 3px;
+
+input {
+  appearance: none;
+  &[type=button] {
+    outline: unset;
+  }
+}
+
+.search {
+  position: relative;
+  &:hover {
+    .search-input {
+      border-color: $color-border-hover;
+    }
+  }
+
+  &-input {
+    display: block;
+    width: 100%;
+    background: none;
+    outline: none;
+    border: 1px solid $color-gray;
+    padding: 0.5rem 2.2rem 0.5rem 0.7rem;
+    font-size: $font-size-3;
+    transition: border-color $transition-duration;
+    border-radius: $search-input-border-radius;
+    color: $color-gray-dark;
+    &:focus {
+      border-color: $color-border-focus !important;
+    }
+  }
+  &-input-clear {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: auto;
+    padding: 0 0.6em;
+    line-height: 1;
+    cursor: pointer;
+    background: transparent;
+    text-align: center;
+    border: none;
+    font-size: $font-size-3;
+    color: $color-gray-dark;
+    opacity: 0.6;
+    transition: opacity $transition-duration;
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &-autocomplete {
+    position: absolute;
+    top: 2.2rem;
+    left: 0;
+    width: 100%;
+    max-height: 208px;
+    margin-top: 1px;
+    z-index: 25;
+    vertical-align: baseline;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+    &-wrap {
+      box-sizing: border-box;
+      display: block;
+      padding: 4px 0;
+      max-height: 208px;
+      background-color: $color-white;
+      overflow-y: auto;
+      overflow-x: hidden;
+      position: static;
+      border-right: 1px solid $color-gray;
+      border-bottom: 1px solid $color-gray;
+      border-left: 1px solid $color-gray;
+      border-radius: 0 0 2px 2px;
+      .item {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+        line-height: 1.1;
+        font-size: $font-size-3;
+        padding: 5px .68182em;
+        margin: 0 auto;
+        position: static;
+        color: $color-gray-dark;
+        font-weight: 400;
+        &:hover {
+          background-color: $color-gray-light;
+          color: $color-black;
+        }
+        strong {
+          color: $color-black;
+          font-weight: 400;
+        }
+      }
+      &.key-board-focus {
+        .item {
+          &:hover {
+            background-color: $color-white;
+            color: $color-gray-dark;
+          }
+          &.focus {
+            background-color: $color-gray-light;
+            color: $color-black;
+          }
+        }
+      }
+    }
+  }
+}
+
+.selected-items {
+  padding: $space 0;
+  .item {
+    padding: 0.25rem 1.8rem 0.25rem 0.7rem;
+    display: inline-block;
+    background-color: $color-primary;
+    color: $color-white;
+    margin-right: $space;
+    margin-bottom: $space;
+    font-size: $font-size-3;
+    cursor: pointer;
+    position: relative;
+    &:hover {
+      &:after {
+        color: $color-white;
+      }
+    }
+    &:after {
+      content: 'X';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      display: block;
+      color: rgba($color-white, 0.6);
+      line-height: 1.6;
+      padding: 0 0.45rem;
+      transition: color $transition-duration;
+    }
+  }
+}
