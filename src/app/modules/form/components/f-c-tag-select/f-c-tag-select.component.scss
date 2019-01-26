@@ -37,6 +37,7 @@ input {
       border-color: $color-border-focus !important;
     }
   }
+
   &-input-clear {
     display: block;
     position: absolute;
@@ -83,6 +84,7 @@ input {
       border-bottom: 1px solid $color-gray;
       border-left: 1px solid $color-gray;
       border-radius: 0 0 2px 2px;
+
       .item {
         white-space: nowrap;
         overflow: hidden;
@@ -95,25 +97,14 @@ input {
         position: static;
         color: $color-gray-dark;
         font-weight: 400;
-        &:hover {
+        &.focus {
           background-color: $color-gray-light;
           color: $color-black;
         }
+
         strong {
           color: $color-black;
           font-weight: 400;
-        }
-      }
-      &.key-board-focus {
-        .item {
-          &:hover {
-            background-color: $color-white;
-            color: $color-gray-dark;
-          }
-          &.focus {
-            background-color: $color-gray-light;
-            color: $color-black;
-          }
         }
       }
     }
@@ -122,6 +113,7 @@ input {
 
 .selected-items {
   padding: $space 0;
+
   .item {
     padding: 0.25rem 1.8rem 0.25rem 0.7rem;
     display: inline-block;

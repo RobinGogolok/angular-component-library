@@ -17,8 +17,8 @@
             #searchInput>
         <input class="search-input-clear" type="button" value="X" (click)="onClearSearchInputClick()" *ngIf="!isSearchInputEmpty()">
         <div class="search-autocomplete" *ngIf="isSearchAutocompleteOpen && filteredItems.length > 0">
-            <div class="search-autocomplete-wrap" [class.key-board-focus]="true">
-                <div class="item" [class.focus]="item.focus" (click)="onItemClick(item)" *ngFor="let item of filteredItems" [innerHTML]="item.label"></div>
+            <div class="search-autocomplete-wrap">
+                <div class="item" [class.focus]="item.focus" (click)="onItemClick(item)" (mouseenter)="onItemMouseEnter(item)" *ngFor="let item of filteredItems" [innerHTML]="item.label"></div>
             </div>
         </div>
     </div>

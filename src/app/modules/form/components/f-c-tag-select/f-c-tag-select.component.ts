@@ -255,8 +255,8 @@ export class FCTagSelectComponent implements OnInit {
 
   public isSearchAutocompleteOpen = false;
   public filteredItems: FilteredItem[] = [];
-  private filteredItemFocusIndex: number | null = null;
 
+  private filteredItemFocusIndex: number | null = null;
   private selectedItems: Item[] = [];
 
   private formGroup: FormGroup;
@@ -311,6 +311,9 @@ export class FCTagSelectComponent implements OnInit {
           return;
         } else if (this.filteredItemFocusIndex === 0) {
           this.filteredItemFocusIndex = null;
+          const searchValue = this.getSearchInputValue();
+          this.patchValue('');
+          this.patchValue(searchValue);
         } else {
           this.filteredItemFocusIndex--;
         }
@@ -332,6 +335,11 @@ export class FCTagSelectComponent implements OnInit {
     this.addItemToSelectedItems(item);
     this.clearSearchInput();
     this.clearFilteredItems();
+  }
+
+  public onItemMouseEnter(item: FilteredItem): void {
+    this.filteredItemFocusIndex = this.filteredItems.indexOf(item);
+    this.setFocusToFilteredItem(this.filteredItemFocusIndex);
   }
 
   public onClearSearchInputClick(): void {
@@ -382,9 +390,17 @@ export class FCTagSelectComponent implements OnInit {
   }
 
   private clearSearchInput(): void {
+    this.patchValue('');
+  }
+
+  private patchValue(value: string): void {
     this.formGroup.patchValue({
-      searchInput: ''
+      searchInput: value
     })
+  }
+
+  private getSearchInputValue(): string {
+    return this.formGroup.value.searchInput;
   }
 
   private setFocusToSearchInput(): void {
@@ -403,7 +419,7 @@ export class FCTagSelectComponent implements OnInit {
     return items.map(item => this.transformItemToFilteredItem(item));
   }
 
-  private setFocusToFilteredItem(itemIndex: number): void {
+  private setFocusToFilteredItem(itemIndex: number | null): void {
     if ( this.filteredItems.length === 0 ) {
       return;
     }
