@@ -301,10 +301,10 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
     switch ( event.code ) {
       case 'ArrowDown': {
         if (this.filteredItemFocusIndex === null) {
-          this.filteredItemFocusIndex = 0;
+          this.filteredItemsFocusNext();
         } else if (this.filteredItemFocusIndex === this.filteredItems.length -1) {
         } else {
-          this.filteredItemFocusIndex++;
+          this.filteredItemsFocusNext();
         }
         this.setFocusToFilteredItem(this.filteredItemFocusIndex);
         break;
@@ -318,7 +318,7 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
           this.patchValue('');
           this.patchValue(searchValue);
         } else {
-          this.filteredItemFocusIndex--;
+          this.filteredItemsFocusPrevious();
         }
         this.setFocusToFilteredItem(this.filteredItemFocusIndex);
         break;
@@ -361,6 +361,55 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
 
   public isSearchInputEmpty(): boolean {
     return this.formGroup.value.searchInput.length === 0;
+  }
+
+  private filteredItemsFocusNext(): void {
+    if ( this.filteredItems.length === 0 ) {
+      return;
+    }
+    let loop = true;
+    let index = this.filteredItemFocusIndex;
+    if (index === null) {
+      index = -1;
+    }
+    while(loop) {
+      const nextItem = this.filteredItems[index + 1];
+      if (typeof nextItem !== undefined) {
+        if (!this.isItemSelected(nextItem)) {
+          index++;
+          loop = false;
+        } else {
+          index++;
+        }
+      } else {
+        loop = false;
+        index = this.filteredItemFocusIndex;
+      }
+    }
+    this.filteredItemFocusIndex = index;
+  }
+
+  private filteredItemsFocusPrevious(): void {
+    if ( this.filteredItems.length === 0 ) {
+      return;
+    }
+    let loop = true;
+    let index = this.filteredItemFocusIndex;
+    while(loop) {
+      const nextItem = this.filteredItems[index - 1];
+      if (typeof nextItem !== undefined) {
+        if (!this.isItemSelected(nextItem)) {
+          index--;
+          loop = false;
+        } else {
+          index--;
+        }
+      } else {
+        loop = false;
+        index = null;
+      }
+    }
+    this.filteredItemFocusIndex = index;
   }
 
   private initFormGroup(): void {
