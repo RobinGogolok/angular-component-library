@@ -10,11 +10,11 @@
             autocorrect="off"
             (input)="onSearchInputInput($event)"
             (focus)="onSearchInputFocus()"
-            (keyup)="onSearchInputKeyUp($event)"
+            (keydown)="onSearchInputKeyDown($event)"
             #searchInput>
         <input class="search-input-clear close-not-on-click" type="button" value="X" (click)="onClearSearchInputClick()" *ngIf="!isSearchInputEmpty()">
         <div class="search-autocomplete close-not-on-click" *ngIf="isSearchAutocompleteOpen && filteredItems.length > 0">
-            <div class="search-autocomplete-wrap close-not-on-click">
+            <div class="search-autocomplete-wrap close-not-on-click" #searchAutocompleteWrap>
                 <div
                     class="item close-not-on-click"
                     [class.focus]="item.focus"

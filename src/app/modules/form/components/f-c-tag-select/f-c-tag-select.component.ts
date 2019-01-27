@@ -20,6 +20,7 @@ export interface FilteredItem {
 export class FCTagSelectComponent implements OnInit, OnDestroy {
 
   @ViewChild("searchInput") searchInputRef: ElementRef;
+  @ViewChild("searchAutocompleteWrap") searchAutocompleteWrapRef: ElementRef;
 
   public items: Item[] = [
     { label: 'Abortion Policy/Anti-Abortion', value: 'Abortion Policy/Anti-Abortion' },
@@ -298,9 +299,12 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
     this.openSearchAutocomplete();
   }
 
-  public onSearchInputKeyUp(event: KeyboardEvent): void {
+  public onSearchInputKeyDown( event: KeyboardEvent): void {
     switch ( event.code ) {
       case 'ArrowDown': {
+        if ( this.filteredItems.length === 0 ) {
+          return;
+        }
         if (this.filteredItemFocusIndex === null) {
           this.filteredItemsFocusNext();
         } else if (this.filteredItemFocusIndex === this.filteredItems.length -1) {
@@ -308,9 +312,13 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
           this.filteredItemsFocusNext();
         }
         this.setFocusToFilteredItem(this.filteredItemFocusIndex);
+        // this.scrollFocusedItemInToView(); @ToDo: Fix bug in this method
         break;
       }
       case 'ArrowUp': {
+        if ( this.filteredItems.length === 0 ) {
+          return;
+        }
         if (this.filteredItemFocusIndex === null) {
           return;
         } else if (this.filteredItemFocusIndex === 0) {
@@ -322,9 +330,13 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
           this.filteredItemsFocusPrevious();
         }
         this.setFocusToFilteredItem(this.filteredItemFocusIndex);
+        // this.scrollFocusedItemInToView(); @ToDo: Fix bug in this method
         break;
       }
       case 'Enter': {
+        if ( this.filteredItems.length === 0 ) {
+          return;
+        }
         if (this.filteredItemFocusIndex === null) {
           break;
         }
@@ -334,6 +346,14 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
           this.filteredItemFocusIndex = null;
           this.clearSearchInput();
           this.clearFilteredItems();
+        }
+        break;
+      }
+      case 'Escape': {
+        if (this.getSearchInputValue() !== '') {
+        this.filteredItemFocusIndex = null;
+        this.clearSearchInput();
+        this.clearFilteredItems();
         }
         break;
       }
@@ -498,6 +518,32 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
         item.focus = true;
       }
     });
+  }
+
+  private scrollFocusedItemInToView(): void {
+    const searchAutocompleteWrap = this.searchAutocompleteWrapRef.nativeElement as HTMLElement;
+    const searchAutocompleteWrapHeight = searchAutocompleteWrap.offsetHeight;
+    if (searchAutocompleteWrapHeight < 208) {
+      return;
+    }
+    const items = searchAutocompleteWrap.getElementsByClassName('item') as HTMLCollection;
+    const firstItem = items[0] as HTMLElement;
+    const itemHeight = firstItem.offsetHeight;
+    const focusedItem = this.filteredItems.find(item => {
+      return item.focus === true;
+    });
+    if (typeof focusedItem === 'undefined') {
+      return;
+    }
+    const focusedItemIndex = this.filteredItems.indexOf(focusedItem);
+    const focusedItemHTMLElement = items[focusedItemIndex] as HTMLElement;
+    let scrollTo = 0;
+    if (focusedItemIndex > 0) {
+      scrollTo = focusedItemHTMLElement.offsetTop + itemHeight - 208;
+    }
+    if (scrollTo >= 0 && scrollTo !== searchAutocompleteWrap.scrollTop) {
+      searchAutocompleteWrap.scrollTop = scrollTo;
+    }
   }
 
   private initWindowEventHandler(): void {
