@@ -289,6 +289,7 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
     const searchInput = event.target.value;
     if (searchInput === '') {
       this.clearFilteredItems();
+      return;
     }
     this.filterItems(searchInput);
   }
@@ -374,7 +375,7 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
     }
     while(loop) {
       const nextItem = this.filteredItems[index + 1];
-      if (typeof nextItem !== undefined) {
+      if (typeof nextItem !== 'undefined') {
         if (!this.isItemSelected(nextItem)) {
           index++;
           loop = false;
@@ -397,7 +398,7 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
     let index = this.filteredItemFocusIndex;
     while(loop) {
       const nextItem = this.filteredItems[index - 1];
-      if (typeof nextItem !== undefined) {
+      if (typeof nextItem !== 'undefined') {
         if (!this.isItemSelected(nextItem)) {
           index--;
           loop = false;
