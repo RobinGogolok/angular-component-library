@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -17,7 +17,7 @@ export interface FilteredItem {
   templateUrl: './f-c-tag-select.component.html',
   styleUrls: [ './f-c-tag-select.component.scss' ]
 } )
-export class FCTagSelectComponent implements OnInit {
+export class FCTagSelectComponent implements OnInit, OnDestroy {
 
   @ViewChild("searchInput") searchInputRef: ElementRef;
 
@@ -258,6 +258,7 @@ export class FCTagSelectComponent implements OnInit {
 
   private filteredItemFocusIndex: number | null = null;
   private selectedItems: Item[] = [];
+  private windowEventHandler: EventListener;
 
   private formGroup: FormGroup;
 
@@ -266,6 +267,7 @@ export class FCTagSelectComponent implements OnInit {
 
   ngOnInit() {
     this.initFormGroup();
+    this.initWindowEventHandler();
   }
 
   public openSearchAutocomplete(): void {
@@ -277,6 +279,7 @@ export class FCTagSelectComponent implements OnInit {
   }
 
   public onSearchInputInput( event ): void {
+    this.filteredItemFocusIndex = null;
     if (event.target === undefined && event.target.value === undefined) {
       if (!environment.production) {
         console.warn('Can\'t read target input value!', event);
@@ -321,10 +324,16 @@ export class FCTagSelectComponent implements OnInit {
         break;
       }
       case 'Enter': {
-        this.addItemToSelectedItems(this.filteredItems[this.filteredItemFocusIndex]);
-        this.filteredItemFocusIndex = null;
-        this.clearSearchInput();
-        this.clearFilteredItems();
+        if (this.filteredItemFocusIndex === null) {
+          break;
+        }
+        const item = this.filteredItems[this.filteredItemFocusIndex];
+        if (!this.isItemSelected(item)) {
+          this.addItemToSelectedItems(item);
+          this.filteredItemFocusIndex = null;
+          this.clearSearchInput();
+          this.clearFilteredItems();
+        }
         break;
       }
     }
@@ -332,9 +341,11 @@ export class FCTagSelectComponent implements OnInit {
 
   public onItemClick( item: Item ): void {
     this.setFocusToSearchInput();
-    this.addItemToSelectedItems(item);
-    this.clearSearchInput();
-    this.clearFilteredItems();
+    if (!this.isItemSelected(item)) {
+      this.addItemToSelectedItems( item );
+      this.clearSearchInput();
+      this.clearFilteredItems();
+    }
   }
 
   public onItemMouseEnter(item: FilteredItem): void {
@@ -385,6 +396,12 @@ export class FCTagSelectComponent implements OnInit {
     }
   }
 
+  public isItemSelected(item: Item): boolean {
+    return this.selectedItems.some(selectedItem => {
+      return selectedItem.label ===  item.label && selectedItem.value === item.value;
+    });
+  }
+
   private clearFilteredItems(): void {
     this.filteredItems = [];
   }
@@ -431,5 +448,22 @@ export class FCTagSelectComponent implements OnInit {
         item.focus = true;
       }
     });
+  }
+
+  private initWindowEventHandler(): void {
+    this.windowEventHandler = (event) => {
+      const targetElement = event.target as HTMLElement;
+      if (!targetElement || typeof targetElement.classList === undefined) {
+        return;
+      }
+      if (!targetElement.classList.contains('close-not-on-click')) {
+        this.closeSearchAutocomplete();
+      }
+    };
+    window.addEventListener('click', this.windowEventHandler);
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('click', this.windowEventHandler);
   }
 }
