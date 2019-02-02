@@ -153,6 +153,12 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
     return this.formGroup.value.searchInput.length === 0;
   }
 
+  public isItemSelected(item: SelectItem): boolean {
+    return this.selectedItems.some(selectedItem => {
+      return selectedItem.label ===  item.label && selectedItem.value === item.value;
+    });
+  }
+
   private filteredItemsFocusNext(): void {
     if ( this.filteredItems.length === 0 ) {
       return;
@@ -256,12 +262,6 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
         filteredItem.label = labelArray.join('');
       }
     );
-  }
-
-  public isItemSelected(item: SelectItem): boolean {
-    return this.selectedItems.some(selectedItem => {
-      return selectedItem.label ===  item.label && selectedItem.value === item.value;
-    });
   }
 
   private clearFilteredItems(): void {
