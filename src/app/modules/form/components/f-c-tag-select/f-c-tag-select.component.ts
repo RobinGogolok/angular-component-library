@@ -58,7 +58,7 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
       }
       return;
     }
-    const searchInput = event.target.value;
+    const searchInput = event.target.value.toLowerCase();
     if (searchInput === '') {
       this.clearFilteredItems();
       return;
@@ -233,10 +233,27 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
         } else {
           this.filteredItems = filteredItems;
         }
+        this.markSearchInput(searchInput);
       }, err => {
         if (!environment.production) {
           console.error(err);
         }
+      }
+    );
+  }
+
+  private markSearchInput(searchInput: string): void {
+    this.filteredItems.forEach(
+      filteredItem => {
+        const start = filteredItem.label.toLowerCase().indexOf(searchInput);
+        const end = start + searchInput.length + 1;
+        const labelArray = filteredItem.label.split('');
+        labelArray
+          .splice(start, 0, '<strong>');
+        labelArray
+          .splice(end, 0, '</strong>');
+
+        filteredItem.label = labelArray.join('');
       }
     );
   }
