@@ -23,7 +23,7 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
 
   @Input() filterFunction: (searchInput: string) => Observable<SelectItem[]>;
 
-  readonly maxItems = 10;
+  @Input() maxItems = 10;
 
   public isSearchAutocompleteOpen = false;
   public filteredItems: FilteredSelectItem[] = [];
