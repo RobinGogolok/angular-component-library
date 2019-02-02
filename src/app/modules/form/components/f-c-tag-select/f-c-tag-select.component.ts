@@ -3,6 +3,7 @@ import { environment } from '../../../../../environments/environment';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SelectItem } from '../../../../core/interfaces/select-item.interface';
 import { Observable } from 'rxjs';
+import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 
 export interface FilteredSelectItem {
   label: string;
@@ -222,7 +223,7 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
   }
 
   private filterItems(searchInput: string): void {
-    this.filterFunction(searchInput).subscribe(
+    this.filterFunction(searchInput).pipe(untilComponentDestroyed(this)).subscribe(
       res => {
         const filteredItems = this.transformItemsToFilteredItems(res);
         if (filteredItems.length > this.maxItems) {
