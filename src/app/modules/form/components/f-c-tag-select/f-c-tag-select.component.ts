@@ -82,7 +82,6 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
           this.filteredItemsFocusNext();
         }
         this.setFocusToFilteredItem(this.filteredItemFocusIndex);
-        // this.scrollFocusedItemInToView(); @ToDo: Fix bug in this method
         break;
       }
       case 'ArrowUp': {
@@ -100,7 +99,6 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
           this.filteredItemsFocusPrevious();
         }
         this.setFocusToFilteredItem(this.filteredItemFocusIndex);
-        // this.scrollFocusedItemInToView(); @ToDo: Fix bug in this method
         break;
       }
       case 'Enter': {
@@ -294,32 +292,6 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
         item.focus = true;
       }
     });
-  }
-
-  private scrollFocusedItemInToView(): void {
-    const searchAutocompleteWrap = this.searchAutocompleteWrapRef.nativeElement as HTMLElement;
-    const searchAutocompleteWrapHeight = searchAutocompleteWrap.offsetHeight;
-    if (searchAutocompleteWrapHeight < 208) {
-      return;
-    }
-    const items = searchAutocompleteWrap.getElementsByClassName('item') as HTMLCollection;
-    const firstItem = items[0] as HTMLElement;
-    const itemHeight = firstItem.offsetHeight;
-    const focusedItem = this.filteredItems.find(item => {
-      return item.focus === true;
-    });
-    if (typeof focusedItem === 'undefined') {
-      return;
-    }
-    const focusedItemIndex = this.filteredItems.indexOf(focusedItem);
-    const focusedItemHTMLElement = items[focusedItemIndex] as HTMLElement;
-    let scrollTo = 0;
-    if (focusedItemIndex > 0) {
-      scrollTo = focusedItemHTMLElement.offsetTop + itemHeight - 208;
-    }
-    if (scrollTo >= 0 && scrollTo !== searchAutocompleteWrap.scrollTop) {
-      searchAutocompleteWrap.scrollTop = scrollTo;
-    }
   }
 
   private initWindowEventHandler(): void {
