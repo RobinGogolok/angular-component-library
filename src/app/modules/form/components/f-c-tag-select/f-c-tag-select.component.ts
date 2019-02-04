@@ -31,6 +31,7 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
   private filteredItemFocusIndex: number | null = null;
   private selectedItems: SelectItem[] = [];
   private windowEventHandler: EventListener;
+  private noPointerEventsTimeOut;
 
   private formGroup: FormGroup;
 
@@ -195,11 +196,22 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
     const itemEl = scrollContainerEl.getElementsByClassName('item')[itemIndex] as HTMLElement;
     const itemHeight = itemEl.clientHeight;
 
+    if (!scrollContainerEl.classList.contains('no-pointer-events')) {
+      scrollContainerEl.classList.add('no-pointer-events');
+    }
+
     if (itemEl.offsetTop + itemHeight > scrollContainerEl.clientHeight + scrollContainerEl.scrollTop) {
       scrollContainerEl.scrollTop += itemHeight;
     } else if (itemEl.offsetTop < scrollContainerEl.scrollTop) {
       scrollContainerEl.scrollTop -= itemHeight;
     }
+
+    if (typeof this.noPointerEventsTimeOut === 'number') {
+      clearTimeout(this.noPointerEventsTimeOut);
+    }
+    this.noPointerEventsTimeOut = setTimeout(() => {
+      scrollContainerEl.classList.remove('no-pointer-events');
+    }, 400);
   }
 
   private filteredItemsFocusPrevious(): void {

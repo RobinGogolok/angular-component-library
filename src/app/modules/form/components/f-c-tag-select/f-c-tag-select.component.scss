@@ -83,6 +83,10 @@ input {
       border-bottom: 1px solid $color-gray;
       border-left: 1px solid $color-gray;
       border-radius: 0 0 2px 2px;
+      &.no-pointer-events {
+        pointer-events: none;
+        cursor: none;
+      }
 
       .item {
         white-space: nowrap;
