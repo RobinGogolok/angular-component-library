@@ -83,6 +83,7 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
           this.filteredItemsFocusNext();
         }
         this.setFocusToFilteredItem(this.filteredItemFocusIndex);
+        this.scrollItemIntoView(this.filteredItemFocusIndex);
         break;
       }
       case 'ArrowUp': {
@@ -100,6 +101,7 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
           this.filteredItemsFocusPrevious();
         }
         this.setFocusToFilteredItem(this.filteredItemFocusIndex);
+        this.scrollItemIntoView(this.filteredItemFocusIndex);
         break;
       }
       case 'Enter': {
@@ -183,6 +185,21 @@ export class FCTagSelectComponent implements OnInit, OnDestroy {
       }
     }
     this.filteredItemFocusIndex = index;
+  }
+
+  private scrollItemIntoView(itemIndex: number): void {
+    if (itemIndex === null) {
+      return;
+    }
+    const scrollContainerEl = this.searchAutocompleteWrapRef.nativeElement as HTMLElement;
+    const itemEl = scrollContainerEl.getElementsByClassName('item')[itemIndex] as HTMLElement;
+    const itemHeight = itemEl.clientHeight;
+
+    if (itemEl.offsetTop + itemHeight > scrollContainerEl.clientHeight + scrollContainerEl.scrollTop) {
+      scrollContainerEl.scrollTop += itemHeight;
+    } else if (itemEl.offsetTop < scrollContainerEl.scrollTop) {
+      scrollContainerEl.scrollTop -= itemHeight;
+    }
   }
 
   private filteredItemsFocusPrevious(): void {
