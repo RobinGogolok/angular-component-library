@@ -5,10 +5,10 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-main-page',
-  templateUrl: './main-page.component.html',
-  styleUrls: ['./main-page.component.scss']
+  templateUrl: './main-form-page.component.html',
+  styleUrls: ['./main-form-page.component.scss']
 })
-export class MainPageComponent implements OnInit {
+export class MainFormPageComponent implements OnInit {
 
   readonly items: SelectItem[] = [
     { label: 'Abortion Policy/Anti-Abortion', value: 'Abortion Policy/Anti-Abortion' },
