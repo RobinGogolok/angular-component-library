@@ -1,0 +1,31 @@
+@import "~src/scss/varibles";
+
+$imageHeight: 100px;
+$imagePaddingY: 8px;
+
+.window {
+  width: 100%;
+  height: $imageHeight + ($imagePaddingY * 2);
+  overflow-x: scroll;
+  overflow-y: hidden;
+
+  .image-gallery {
+    background-color: $color-gray-light;
+    border-radius: 3px;
+    width: calc(100% + 200px);
+
+    .image-container {
+      display: inline-block;
+      padding: $imagePaddingY 0 $imagePaddingY $imagePaddingY;
+
+      .image {
+        width: 200px;
+        height: $imageHeight;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        cursor: pointer;
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+@import "~src/scss/varibles";
+
+.light-box {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  overflow-y: scroll;
+
+  .image-container {
+    text-align: center;
+
+    img {
+      width: 90%;
+
+    }
+  }
+
+  .control-previous {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.51);
+    color: $color-white;
+  }
+
+  .control-next {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.51);
+    color: $color-white;
+  }
+}

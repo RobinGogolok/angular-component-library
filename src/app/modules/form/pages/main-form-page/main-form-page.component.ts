@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 
 @Component({
-  selector: 'app-main-page',
+  selector: 'app-form-main-page',
   templateUrl: './main-form-page.component.html',
   styleUrls: ['./main-form-page.component.scss']
 })

@@ -1,0 +1,7 @@
+<div class="light-box" *ngIf="isLightBoxOpen && selectedImageIndex !== undefined && images !== undefined">
+  <div (click)="previousImage()" class="control-previous">previous</div>
+  <div class="image-container">
+    <img [src]="images[selectedImageIndex].url">
+  </div>
+  <div (click)="nextImage()" class="control-next">next</div>
+</div>

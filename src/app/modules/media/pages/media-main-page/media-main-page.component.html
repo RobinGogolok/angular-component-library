@@ -1,0 +1,24 @@
+<div class="container">
+  <h1>Media</h1>
+  <h2>Images</h2>
+  <h3>Light Box</h3>
+  <p>Open Light box with optional description on image click.</p>
+  <div class="spacer-x2"></div>
+  <div class="window">
+    <div class="image-gallery" [style.width]="(images.length * 208) + 8 + 'px'">
+      <div class="image-container" *ngFor="let image of images; let i = index">
+        <div
+          class="image"
+          [style.backgroundImage]="'url(' + image.url + ')'"
+          (click)="onImageClick(i)"></div>
+      </div>
+    </div>
+  </div>
+  <app-light-box
+    [images]="images"
+    [selectedImageIndex]="selectedImageIndex"
+    (functions)="registeredLightBoxFn = $event"></app-light-box>
+  <div class="spacer-x2"></div>
+</div>
+<div class="spacer-x6"></div>
+<div class="spacer-x6"></div>
